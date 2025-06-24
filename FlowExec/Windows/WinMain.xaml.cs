@@ -181,12 +181,13 @@ namespace FlowExec
             if (argv[0].StartsWith("$"))
             {
                 // 内建命令
+
                 switch (argv[0].ToLower())
                 {
                     case "$":
                         var wnd = new WinOption();
                         wnd.Owner = this;
-                        ThemeManager.SetRequestedTheme(wnd, App.CurrentTheme);
+                        App.SetWindowTheme(wnd, (ElementTheme)Properties.Settings.Default.Theme);
                         wnd.ShowDialog();
                         break;
                     default:

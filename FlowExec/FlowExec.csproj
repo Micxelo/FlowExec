@@ -41,9 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Localizations\StringResources.zh-CN.xaml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Page>
     <Page Update="Localizations\StringResources.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>

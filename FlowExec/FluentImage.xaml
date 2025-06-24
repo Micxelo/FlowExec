@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="FlowExec.FluentImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+             xmlns:local="clr-namespace:FlowExec"
+             mc:Ignorable="d" 
+             d:DesignHeight="128" d:DesignWidth="128">
+    <Grid>
+        <Image x:Name="CurrentImage"
+               Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Image x:Name="NextImage" 
+               Stretch="{Binding Stretch, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               VerticalAlignment="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType=UserControl}}"
+               Opacity="0"/>
+    </Grid>
+</UserControl>

@@ -25,7 +25,7 @@ namespace FlowExec.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Theme {
             get {
                 return ((int)(this["Theme"]));
@@ -44,9 +44,9 @@ namespace FlowExec.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("30")]
-        public int Width {
+        public int WidthRatio {
             get {
-                return ((int)(this["Width"]));
+                return ((int)(this["WidthRatio"]));
             }
         }
         
@@ -56,6 +56,15 @@ namespace FlowExec.Properties {
         public bool HomeTilde {
             get {
                 return ((bool)(this["HomeTilde"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mica")]
+        public string Backdrop {
+            get {
+                return ((string)(this["Backdrop"]));
             }
         }
     }

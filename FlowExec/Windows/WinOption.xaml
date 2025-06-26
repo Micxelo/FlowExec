@@ -4,21 +4,116 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:FlowExec"
+        xmlns:settings="clr-namespace:FlowExec.Properties"
         xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
         xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
-        xmlns:local="clr-namespace:FlowExec"
         mc:Ignorable="d"
         Title="{StaticResource wOpt_Title}"
-        Width="520"
-        Height="430"
+        Width="600"
+        Height="400"
         ResizeMode="NoResize"
         Icon="/Assets/app.ico"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
         ui:ThemeManager.IsThemeAware="True"
-        ui:WindowHelper.SystemBackdropType="Mica"
-        ui:WindowHelper.UseModernWindowStyle="True">
+        ui:WindowHelper.SystemBackdropType="{Binding Path=Backdrop, Source={x:Static settings:Settings.Default}}"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.IsIconVisible="True">
     <Grid>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <ui:ScrollViewerEx Grid.Row="1"
+                           Padding="12"
+                           ui:FocusVisualHelper.UseSystemFocusVisuals="False"
+                           IsTabStop="False"
+                           VerticalScrollBarVisibility="Auto">
+            <ikw:SimpleStackPanel Spacing="4" Margin="8">
+
+                <TextBlock FontSize="16" Text="{StaticResource wOpt_Appearance}"/>
+
+                <ui:SettingsCard Header="{StaticResource wOpt_Theme}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Color}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="ComboTheme"
+                              SelectionChanged="ComboTheme_SelectionChanged"
+                              SelectedIndex="0">
+                        <ComboBoxItem Content="{StaticResource wOpt_Theme_Default}"/>
+                        <ComboBoxItem Content="{StaticResource wOpt_Theme_Light}"/>
+                        <ComboBoxItem Content="{StaticResource wOpt_Theme_Dark}"/>
+                    </ComboBox>
+                </ui:SettingsCard>
+                
+                <ui:SettingsCard Header="{StaticResource wOpt_Backdrop}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.BackgroundToggle}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="ComboBackdrop"
+                              SelectionChanged="ComboBackdrop_SelectionChanged"
+                              SelectedIndex="0">
+                        <sys:String>None</sys:String>
+                        <sys:String>Mica</sys:String>
+                        <sys:String>Acrylic</sys:String>
+                        <sys:String>Tabbed</sys:String>
+                    </ComboBox>
+                </ui:SettingsCard>
+
+                <ui:SettingsCard Header="{StaticResource wOpt_Language}"
+                                 Description="{StaticResource wOpt_Language_D}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.LocaleLanguage}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="ComboLanguage"
+                              SelectionChanged="ComboLanguage_SelectionChanged"
+                              SelectedIndex="0"/>
+                </ui:SettingsCard>
+
+                <ui:SettingsCard Header="{StaticResource wOpt_Width}"
+                                 Description="{StaticResource wOpt_Width_D}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.AspectRatio}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <Slider x:Name="SliderWidth"
+                            Minimum="30"
+                            Maximum="80"
+                            TickFrequency="1"/>
+                </ui:SettingsCard>
+
+                <TextBlock FontSize="16" Text="{StaticResource wOpt_Operations}"/>
+
+                <ui:SettingsCard Header="{StaticResource wOpt_HomeTilde}"
+                                 Description="{StaticResource wOpt_HomeTilde_D}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Home}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <ui:ToggleSwitch Name="SwitchTilde"/>
+                </ui:SettingsCard>
+
+                <ui:SettingsCard x:Name="CardShortcuts"
+                                 Header="{StaticResource wOpt_Shortcuts}"
+                                 IsClickEnabled="True"
+                                 Click="CardShortcuts_Click">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Link}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                </ui:SettingsCard>
+
+                <TextBlock FontSize="16" Text="{StaticResource wOpt_About}"/>
+
+                <ui:SettingsCard Header="{StaticResource wOpt_License}">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Icon="{x:Static ui:SegoeFluentIcons.Info}"/>
+                    </ui:SettingsCard.HeaderIcon>
+                    <TextBlock>
+                        <Bold>FlowExec</Bold> is licensed under the MIT License.
+                        <LineBreak />
+                        The UI is powered by iNKORE.UI.WPF.Modern.
+                    </TextBlock>
+                </ui:SettingsCard>
+
+                <ui:HyperlinkButton Content="{StaticResource wOpt_Source}"
+                                    NavigateUri="https://github.com/Micxelo/FlowExec"/>
+
+            </ikw:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Window>

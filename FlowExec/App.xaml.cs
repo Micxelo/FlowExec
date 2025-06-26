@@ -11,7 +11,16 @@ namespace FlowExec
 {
     public partial class App : Application
     {
-        public static FrameworkElement? BaseWindow { get; private set; }
+        public static WinMain? BaseWindow { get; private set; }
+
+        public static readonly Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>
+        {
+            { "en-US", "English (US)" },
+            { "en-UK", "English (UK) "},
+            { "zh-CN", "简体中文" },
+            { "zh-HK", "繁體中文（香港）" },
+            { "zh-TW", "繁體中文（台灣）" },
+        };
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -29,10 +38,10 @@ namespace FlowExec
             }
             Resources.MergedDictionaries.Add(dict);
 
-            var wnd = new WinMain();
-            SetWindowTheme(wnd, (ElementTheme)FlowExec.Properties.Settings.Default.Theme);
-            BaseWindow = wnd;
-            wnd.Show();
+            BaseWindow = new WinMain();
+            SetWindowTheme(BaseWindow, (ElementTheme)FlowExec.Properties.Settings.Default.Theme);
+            BaseWindow = BaseWindow;
+            BaseWindow.Show();
         }
 
         public static void SetWindowTheme(FrameworkElement? element, ElementTheme theme)

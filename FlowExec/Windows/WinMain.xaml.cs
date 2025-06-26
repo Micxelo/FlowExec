@@ -1,4 +1,5 @@
 ﻿using iNKORE.UI.WPF.Modern;
+using iNKORE.UI.WPF.Modern.Controls.Helpers;
 using iNKORE.UI.WPF.Modern.Helpers.Styles;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,7 +43,7 @@ namespace FlowExec
             var preference = Dwm.DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
             Dwm.DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
 
-            var widthRatio = Properties.Settings.Default.Width * 0.01;
+            var widthRatio = Properties.Settings.Default.WidthRatio * 0.01;
             var scrnWidth = SystemParameters.WorkArea.Width;
             this.Width = (int) (scrnWidth * widthRatio);
             this.MinWidth = this.Width;
@@ -98,6 +99,20 @@ namespace FlowExec
 
             animation.Completed += (s, _) => Environment.Exit(0);
             this.BeginAnimation(Window.TopProperty, animation);
+        }
+
+        public void PerformAnimateWidth(double targetWidth, double durationSeconds = 0.3)
+        {
+            // 创建宽度动画
+            DoubleAnimation widthAnimation = new DoubleAnimation
+            {
+                To = targetWidth,
+                Duration = TimeSpan.FromSeconds(durationSeconds),
+                EasingFunction = new QuadraticEase() { EasingMode = EasingMode.EaseInOut }
+            };
+
+            // 应用动画
+            this.BeginAnimation(Window.WidthProperty, widthAnimation);
         }
 
         private void InputBar_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -10,7 +10,9 @@
     <sys:String x:Key="wOpt_Theme_Default">Default</sys:String>
     <sys:String x:Key="wOpt_Theme_Light">Light</sys:String>
     <sys:String x:Key="wOpt_Theme_Dark">Dark</sys:String>
+    <sys:String x:Key="wOpt_Backdrop">Backdrop Style</sys:String>
     <sys:String x:Key="wOpt_Language">Language</sys:String>
+    <sys:String x:Key="wOpt_Language_D">Changes will apply after restarting the app</sys:String>
     <sys:String x:Key="wOpt_Width">Window Width Ratio</sys:String>
     <sys:String x:Key="wOpt_Width_D">Window width (percentage of screen)</sys:String>
     <sys:String x:Key="wOpt_Operations">Operations</sys:String>
@@ -20,7 +22,5 @@
     <sys:String x:Key="wOpt_About">About</sys:String>
     <sys:String x:Key="wOpt_License">License</sys:String>
     <sys:String x:Key="wOpt_Source">Source Code</sys:String>
-
-    <sys:String x:Key="wScut_Title">Shortcuts</sys:String>
 
 </ResourceDictionary>

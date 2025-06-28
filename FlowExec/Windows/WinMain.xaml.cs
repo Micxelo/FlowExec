@@ -2,6 +2,7 @@
 using iNKORE.UI.WPF.Modern.Controls.Helpers;
 using iNKORE.UI.WPF.Modern.Helpers.Styles;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Drawing;
@@ -26,13 +27,11 @@ namespace FlowExec
 {
     public partial class WinMain : Window
     {
-        // 输入框分隔符
-        private const string DefaultDelimiters = "/\\.,;:|!@#$%^&*()+=[]{}<>\"\'~`? \t\n\r";
-
         private string _currentIconPath = "";
 
-        [DllImport("shell32.dll")]
-        public static extern uint ExtractIconEx(string lpszFile, int nIconIndex, int[] phiconLarge, int[] phiconSmall, uint nIcons);
+        // Alias 配置
+        private readonly AliasConfigService _aliasService = new();
+        private List<string> _aliases = new();
 
         public WinMain()
         {
@@ -58,8 +57,47 @@ namespace FlowExec
                 {
                     PerformAnimateIn();
                 }), System.Windows.Threading.DispatcherPriority.ContextIdle);
-                InputBar.Focus();
+                InputBar.IsFocused = true;
+                RefreshCompletionItems();
             };
+
+            InputBar.PreviewKeyDown += InputBar_PreviewKeyDown;
+            InputBar.TextChanged += InputBar_TextChanged;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 订阅别名更新事件
+            _aliasService.AliasesUpdated += OnAliasesUpdated;
+        }
+
+        private void OnAliasesUpdated(object? sender, AliasUpdatedEventArgs e)
+        {
+            // 根据更新类型处理
+            switch (e.UpdateType)
+            {
+                case AliasUpdateType.InitialLoad:
+                    Debug.WriteLine($"初始加载完成，共 {e.UpdatedAliases?.Count ?? 0} 个别名");
+                    break;
+                case AliasUpdateType.Added:
+                    Debug.WriteLine($"添加别名: {e.AliasName} → {e.UpdatedAliases?[e.AliasName]}");
+                    break;
+                case AliasUpdateType.Updated:
+                    Debug.WriteLine($"更新别名: {e.AliasName} → {e.UpdatedAliases?[e.AliasName]}");
+                    break;
+                case AliasUpdateType.Removed:
+                    Debug.WriteLine($"删除别名: {e.AliasName}");
+                    break;
+            }
+            RefreshCompletionItems();
+        }
+
+        private void RefreshCompletionItems()
+        {
+            _aliases.Clear();
+            foreach (var item in _aliasService.GetAllAliases())
+                _aliases.Add(item.Key);
+            InputBar.CompletionItems = _aliases;
         }
 
         private void PerformAnimateIn()
@@ -97,7 +135,7 @@ namespace FlowExec
 
             this.BeginAnimation(Window.TopProperty, animation);
 
-            animation.Completed += (s, _) => Environment.Exit(0);
+            animation.Completed += (s, _) => { _aliasService.Dispose(); Environment.Exit(0); };
             this.BeginAnimation(Window.TopProperty, animation);
         }
 
@@ -117,59 +155,16 @@ namespace FlowExec
 
         private void InputBar_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Back && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            if (e.Key == Key.Enter)
             {
-                e.Handled = true;
-                DeletePreviousWord();
-            }
-            if (e.Key == Key.Enter || e.Key == Key.Return)
-            {
-                e.Handled = true;
-
                 if (!string.IsNullOrEmpty(InputBar.Text))
-                {
-                    HandleUserInput(InputBar.Text, (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);
-                }
+                    RunInput((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);
             }
             if (e.Key == Key.Escape && InputBar.Text.Length == 0)
             {
-                e.Handled = true;
                 this.Close();
             }
         }
-
-        private void DeletePreviousWord()
-        {
-            int caretIndex = InputBar.CaretIndex;
-            if (caretIndex == 0) return;
-
-            string text = InputBar.Text;
-            int startIndex = caretIndex;
-            bool isFirstDelimiter = true;
-
-            while (startIndex > 0)
-            {
-                startIndex--;
-                if (IsDelimiter(text[startIndex]))
-                {
-                    if (!isFirstDelimiter)
-                    {
-                        startIndex++;
-                        break;
-                    }
-                }
-                else if (isFirstDelimiter)
-                {
-                    isFirstDelimiter = false;
-                }
-            }
-
-            // 执行删除操作
-            InputBar.Text = text.Remove(startIndex, caretIndex - startIndex);
-            InputBar.CaretIndex = startIndex;
-        }
-
-        private bool IsDelimiter(char c) => DefaultDelimiters.Contains(c);
 
         private void InputBar_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -185,12 +180,12 @@ namespace FlowExec
         private void BtnRun_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(InputBar.Text))
-                HandleUserInput(InputBar.Text);
+                RunInput();
         }
 
-        private void HandleUserInput(string input, bool admin = false)
+        private void RunInput(bool admin = false)
         {
-            var argv = CommandLine.Parse(input);
+            var argv = InputBar.Parse();
             Debug.WriteLine(argv.Count);
 
             if (argv[0].StartsWith("$"))

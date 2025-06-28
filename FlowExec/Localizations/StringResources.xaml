@@ -16,8 +16,6 @@
     <sys:String x:Key="wOpt_Width">Window Width Ratio</sys:String>
     <sys:String x:Key="wOpt_Width_D">Window width (percentage of screen)</sys:String>
     <sys:String x:Key="wOpt_Operations">Operations</sys:String>
-    <sys:String x:Key="wOpt_HomeTilde">Home Tilde</sys:String>
-    <sys:String x:Key="wOpt_HomeTilde_D">Use "~" for home directory path</sys:String>
     <sys:String x:Key="wOpt_Shortcuts">Shortcuts</sys:String>
     <sys:String x:Key="wOpt_About">About</sys:String>
     <sys:String x:Key="wOpt_License">License</sys:String>

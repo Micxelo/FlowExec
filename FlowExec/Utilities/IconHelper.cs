@@ -51,13 +51,7 @@ namespace FlowExec
             public string szTypeName;
         }
 
-        /// <summary>
-        /// 获取文件或文件夹的图标。
-        /// </summary>
-        /// <param name="path">文件/文件夹路径。</param>
-        /// <param name="isSmall">是否小图标。</param>
-        /// <param name="handleInexistent">对于不存在的对象，是否根据扩展名获取图标。</param>
-        /// <returns>ImageSource 对象。</returns>
+        // 获取文件或文件夹的图标。
         public static (bool, ImageSource) GetIcon(string path, bool isSmall = false, bool handleInexistent = false)
         {
             try

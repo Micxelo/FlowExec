@@ -16,6 +16,7 @@
         Topmost="True" 
         ResizeMode="NoResize"
         Closing="Window_Closing"
+        Loaded="Window_Loaded"
         SizeToContent="Width"
         ui:ThemeManager.IsThemeAware="True"
         ui:WindowHelper.SystemBackdropType="{Binding Path=Backdrop, Source={x:Static settings:Settings.Default}}"
@@ -25,52 +26,44 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox x:Name="InputBar" 
-                     Grid.Column="1"
-                     Margin="8,0,8,0"
-                     Text=""
-                     UndoLimit="65535" 
-                     IsTabStop="False" 
-                     MaxLines="1" 
-                     FontFamily="Consolas" 
-                     FontSize="16"
-                     VerticalContentAlignment="Center" 
-                     Height="36"
-                     PreviewKeyDown="InputBar_PreviewKeyDown"
-                     TextChanged="InputBar_TextChanged"/>
-            <Button x:Name="BtnIcon" 
-                    Grid.Column="0"
-                    Margin="12,0,0,0"
-                    IsTabStop="False"
-                    Height="36"
-                    Width="36"
-                    Padding="2,2,2,2">
-                <local:FluentImage x:Name="BtnIconImage" 
-                                   Width="32" 
-                                   Height="32" 
-                                   Stretch="Uniform"
-                                   Source="/Assets/app.ico" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
-            </Button>
-            <Button x:Name="BtnRun" 
-                    Grid.Column="2"
-                    Margin="0,0,12,0"
-                    IsTabStop="False"
-                    Height="36"
-                    Width="36"
-                    Padding="0,0,0,0"
-                    FontFamily="Consolas"
-                    FontWeight="Bold"
-                    FontSize="24"
-                    ToolTip="{StaticResource wMain_btnRun_Tip}"
-                    Click="BtnRun_Click">
-                >
-            </Button>
-        </Grid>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <local:IntelliInput x:Name="InputBar"
+                            Grid.Column="1"
+                            Margin="8,0,8,0"
+                            Text=""
+                            Height="36"/>
+        <Button x:Name="BtnIcon" 
+                Grid.Column="0"
+                Margin="12,0,0,0"
+                IsTabStop="False"
+                Height="36"
+                Width="36"
+                Padding="2,2,2,2">
+            <local:FluentImage x:Name="BtnIconImage" 
+                                Width="32" 
+                                Height="32" 
+                                Stretch="Uniform"
+                                Source="/Assets/app.ico" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"/>
+        </Button>
+        <Button x:Name="BtnRun" 
+                Grid.Column="2"
+                Margin="0,0,12,0"
+                IsTabStop="False"
+                Height="36"
+                Width="36"
+                Padding="0,0,0,0"
+                FontFamily="Consolas"
+                FontWeight="Bold"
+                FontSize="24"
+                ToolTip="{StaticResource wMain_btnRun_Tip}"
+                Click="BtnRun_Click">
+            >
+        </Button>
+    </Grid>
 </Window>
     

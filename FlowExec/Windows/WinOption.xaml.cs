@@ -53,8 +53,6 @@ namespace FlowExec
                 App.AvailableLanguages[Properties.Settings.Default.Language];
 
             SliderWidth.Value = Properties.Settings.Default.WidthRatio;
-
-            SwitchTilde.IsOn = Properties.Settings.Default.HomeTilde;
         }
 
         private void ComboTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
